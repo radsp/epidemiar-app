@@ -6,8 +6,8 @@ ui <- fluidPage(
   
   tags$head(tags$style(HTML('#Sidebar {width: 1400px;}'))),
   
-  # tags$head(HTML("
-  #               <script type='text/javascript' src='keep-alive.js'></script>")),
+  tags$head(HTML("
+                <script type='text/javascript' src='keep-alive.js'></script>")),
   
   navbarPage(HTML("EPIDEMIAR (Demo)"),
             
