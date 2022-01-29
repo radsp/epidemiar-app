@@ -1,8 +1,8 @@
 server <-function(input, output, session) {
   
   # Prevent "greying out" when running in Civis Platform
-  observe(input$alive_count)
-  session$allowReconnect("force")
+  # observe(input$alive_count)
+  # session$allowReconnect("force")
   
   observeEvent(input$showSidebar, {
     shinyjs::show(id = "Sidebar")
