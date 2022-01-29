@@ -72,7 +72,7 @@ server <-function(input, output, session) {
     
     # return(out_report)
     
-    remove_modal_spinner()
+    # remove_modal_spinner()
     
   })
   
