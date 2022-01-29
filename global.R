@@ -19,12 +19,12 @@ for(i in 1:nrow(id_table)) {
 # env_info <- readRDS("env_info.RDS")
 
 epi_data <- read_civis(sql("SELECT * FROM staging_pmihq.epidemiar_demo_epi_data")) %>%
-  mutate(obs_date = as.Date(as.character(obs_date)))
+  mutate(obs_date = as.Date(as.character(obs_date))) %>% filter(woreda_name %in% wlist)
 
 env_data <- read_civis(sql("SELECT * FROM staging_pmihq.epidemiar_demo_env_data")) %>%
-  mutate(obs_date = as.Date(as.character(obs_date)))
+  mutate(obs_date = as.Date(as.character(obs_date))) %>% filter(woreda_name %in% wlist)
 
-env_ref_data <- read_civis(sql("SELECT * FROM staging_pmihq.epidemiar_demo_env_ref_data"))
+env_ref_data <- read_civis(sql("SELECT * FROM staging_pmihq.epidemiar_demo_env_ref_data")) %>% filter(woreda_name %in% wlist)
 
 env_info <- read_civis(sql("SELECT * FROM staging_pmihq.epidemiar_demo_env_info"))
 
