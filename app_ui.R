@@ -6,7 +6,11 @@ ui <- fluidPage(
   
   tags$head(tags$style(HTML('#Sidebar {width: 1400px;}'))),
   
-  navbarPage(HTML("EPIDEMIAR"),
+  tags$head(HTML("
+                <script type='text/javascript' src='keep-alive.js'></script>")),
+  
+  navbarPage(HTML("EPIDEMIAR (Demo)"),
+            
     tabPanel("Tool",
       div(id = "Sidebar", 
           sidebarPanel(
@@ -19,6 +23,7 @@ ui <- fluidPage(
                      bsTooltip("hide_sidebar", title = "Hide panel", 
                                 placement = "top", trigger = "hover"))
             ),
+           
             br(),
             hr(style = "border-top: 1px solid #9aa5a6;"),
             HTML("<h4>Input Data</h4>"),
@@ -53,7 +58,7 @@ ui <- fluidPage(
             selectInput(inputId = "fc_splines", label = "Spline function used to model long-term trend and lagged environmental variable",
                         choices = c("Thin plate" = "tp"), selected = "tp"),
             checkboxInput(inputId = "fc_cyclicals", label = "Include seasonal cyclical in the model", value = TRUE),
-            checkboxInput(inputId = "env_anomalies", label = "Include environmental anomaly", value = TRUE),
+            # checkboxInput(inputId = "env_anomalies", label = "Include environmental anomaly", value = TRUE),
             numericInput(inputId = "fc_future_period", label = "Forecast span (in months)", 
                          value = 2, min = 2, max = 2),
             br(),
@@ -73,11 +78,13 @@ ui <- fluidPage(
               
           )),
           
+          # add_busy_spinner(spin = "cube-grid"),
+          
           column(width = 10, offset = 1, 
                  
                  fluidRow(uiOutput("result_header")),
                  
-                 fluidRow(column(10, leafletOutput("out_map"))),
+                 fluidRow(column(7, leafletOutput("out_map"))),
                  
                  hr(),
                  

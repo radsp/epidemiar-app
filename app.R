@@ -4,12 +4,12 @@
 if (!require("pacman")) install.packages("pacman")
 
 pacman::p_load(dplyr, knitr, lubridate, readr, readxl, tidyr, tools, forcats, ggplot2,
-               shiny, shinyjs, shinythemes, shinyWidgets, shinyBS, leaflet)
-
-devtools::install_github("EcoGRAPH/clusterapply")
-
-remotes::install_github("ecograph/epidemiar@v3.1.1", build = TRUE, 
-                        build_opts = c("--no-resave-data", "--no-manual"))
+               shiny, shinyjs, shinythemes, shinyWidgets, shinyBS, leaflet, shinybusy)
+# 
+# devtools::install_github("EcoGRAPH/clusterapply")
+# 
+# remotes::install_github("ecograph/epidemiar@v3.1.1", build = TRUE, 
+#                         build_opts = c("--no-resave-data", "--no-manual"))
 
 library(clusterapply)
 library(epidemiar)

@@ -1,6 +1,7 @@
 server <-function(input, output, session) {
   
   # Prevent "greying out" when running in Civis Platform
+  observe(input$alive_count)
   session$allowReconnect("force")
   
   observeEvent(input$showSidebar, {
@@ -27,6 +28,8 @@ server <-function(input, output, session) {
   
   observeEvent(input$run_model, {
     
+    show_modal_spinner(text = "Calculating ....... this may take several minutes")
+    
     pfm_env_var <- tibble(environ_var_code = input$env_indi)
     
     pfm_report_settings <- 
@@ -40,10 +43,10 @@ server <-function(input, output, session) {
         model_run,
         env_var = pfm_env_var,
         env_lag_length = as.numeric(input$env_lag_length) * 30,
-        env_anomalies = input$env_anomalies,
+        env_anomalies =input$env_anomalies,
         fc_splines = input$fc_splines,
         fc_cyclicals = input$fc_cyclicals,
-        fc_future_period = as.numeric(input$fc_future_period) * 2,
+        fc_future_period = as.numeric(input$fc_future_period) * 4,
         fc_clusters = pfm_fc_clusters,
         fc_ncores,
         ed_summary_period,
@@ -68,6 +71,8 @@ server <-function(input, output, session) {
                       report_settings = pfm_report_settings)
     
     # return(out_report)
+    
+    remove_modal_spinner()
     
   })
   
@@ -145,11 +150,12 @@ server <-function(input, output, session) {
       sfp <- left_join(s2_amh, summary_map_data, by = "WID")
       
       mymap <- leaflet(sfp) %>%
-        setView(38.5, 11.54, zoom = 7)  %>%
+        setView(lng =  39.02104, lat = 11.99837, zoom = 9)  %>%
         addProviderTiles("CartoDB.Positron") %>%
         addPolygons(color = "lightgray", weight = 0.85, # smoothFactor = 0.5,
                     fillOpacity = 0.8,
-                    fillColor = ~colorFactor(overview_colors, domain = ew_legend)(ew_legend)) 
+                    fillColor = ~pal(as.character(sfp$ew_legend))) %>%
+        addLegend(pal = pal, values = as.character(sfp$ew_legend), title = "Early Warning", opacity = 1)
       
       (mymap)
       
@@ -171,7 +177,7 @@ server <-function(input, output, session) {
       
       #woredas used in report data
       report_woreda_names <- as.list(y$params_meta$groupings)
-      names(report_woreda_names) <- paste("District ", 1:length(report_woreda_names), sep = "")
+      # names(report_woreda_names) <- paste("District ", 1:length(report_woreda_names), sep = "")
       
       HTML("District: ")
       selectInput("this_woreda", label = NULL, choices = report_woreda_names, 
@@ -183,6 +189,8 @@ server <-function(input, output, session) {
   })
   
   output$ts_output <- renderPlot({
+    
+    
     
     if(!is.null(out_report$data)) {
       y <- out_report$data
@@ -282,6 +290,8 @@ server <-function(input, output, session) {
         woreda_panel_theme
       
       print(control_chart)
+      
+      
     }
     
    
