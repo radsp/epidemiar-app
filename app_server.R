@@ -177,7 +177,7 @@ server <-function(input, output, session) {
       
       #woredas used in report data
       report_woreda_names <- as.list(y$params_meta$groupings)
-      # names(report_woreda_names) <- paste("District ", 1:length(report_woreda_names), sep = "")
+      names(report_woreda_names) <- paste("District ", 1:length(report_woreda_names), sep = "")
       
       HTML("District: ")
       selectInput("this_woreda", label = NULL, choices = report_woreda_names, 
